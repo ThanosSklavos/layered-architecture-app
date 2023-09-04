@@ -1,3 +1,7 @@
+using LayeredArchitectureApp.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 namespace LayeredArchitectureApp
 {
     public class Program
@@ -5,9 +9,11 @@ namespace LayeredArchitectureApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connString = builder.Configuration.GetConnectionString("LayeredAppDBConnection");
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.AddDbContext<LayeredArchitectureTestDbContext>(options => options.UseSqlServer(connString));
 
             var app = builder.Build();
 
